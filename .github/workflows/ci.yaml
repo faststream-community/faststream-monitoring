@@ -74,11 +74,7 @@ jobs:
         run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
 
       - name: Run tests
-        run: pdm run pytest tests --cov=exchange --junitxml=junitxml.xml --cov-report "xml:coverage.xml"; exit ${PIPESTATUS[0]}
+        run: pdm run pytest tests --cov=exchange
 
-      - name: Test coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
-        with:
-          pytest-xml-coverage-path: ./coverage.xml
-          junitxml-path: ./junitxml.xml
-          report-only-changed-files: true
+      - name: Publish coverage summary
+        run: pdm run coverage report --format=markdown >> "$GITHUB_STEP_SUMMARY"
